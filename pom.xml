@@ -1,0 +1,186 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>5</version>
+    </parent>
+
+    <groupId>de.akquinet.innovation.gitblit</groupId>
+    <artifactId>gitblit-crowd-extension</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>gitblit-crowd-extension</name>
+
+    <description>
+        Integration between Gitblit and Crowd Identity Server.
+    </description>
+    <!-- TODO Add url and SCM -->
+
+    <developers>
+        <developer>
+            <id>cescoffier</id>
+            <name>Clement Escoffier</name>
+            <email>clement.escoffier@gmail[NO-SPAM].com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <inceptionYear>2012</inceptionYear>
+
+    <organization>
+        <name>akquinet</name>
+        <url>http://www.akquinet.de/en</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>Apache Software License 2.0</name>
+            <comments>a business friendly license</comments>
+            <distribution>repo</distribution>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <properties>
+        <gitblit.version>0.9.1</gitblit.version>
+    </properties>
+
+    <modules>
+        <module>gitblit-dependencies</module>
+        <module>gitblit-crowd-authentication</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.atlassian.crowd</groupId>
+                <artifactId>crowd-integration-client</artifactId>
+                <version>2.4.0</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- dependencies provided by gitblit  -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.6.1</version>
+                <scope>provided</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.0</version>
+                <configuration>
+
+                    <reportPlugins>
+                        <plugin>
+                            <artifactId>maven-plugin-plugin</artifactId>
+                            <configuration>
+                                <aggregate>true</aggregate>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-jxr-plugin</artifactId>
+                            <version>2.3</version>
+                            <configuration>
+                                <aggregate>true</aggregate>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-pmd-plugin</artifactId>
+                            <version>2.6</version>
+                            <configuration>
+                                <linkXRef>true</linkXRef>
+                                <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+                                <minimumTokens>100</minimumTokens>
+                                <targetJdk>1.5</targetJdk>
+                                <aggregate>true</aggregate>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-project-info-reports-plugin</artifactId>
+                            <version>2.4</version>
+                            <configuration>
+                                <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+                                <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+                                <aggregate>true</aggregate>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-javadoc-plugin</artifactId>
+                            <version>2.8</version>
+                            <configuration>
+                                <quiet>true</quiet>
+                                <links>
+                                    <link>http://download.oracle.com/javase/1.5.0/docs/api/</link>
+                                </links>
+                                <aggregate>true</aggregate>
+                            </configuration>
+                        </plugin>
+                    </reportPlugins>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.kohsuke</groupId>
+                        <artifactId>doxia-module-markdown</artifactId>
+                        <version>1.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <repositories>
+        <repository>
+            <id>atlassian</id>
+            <name>atlassian</name>
+            <url>http://maven.atlassian.com/public</url>
+        </repository>
+    </repositories>
+
+    <profiles>
+        <profile>
+            <!--  When enabled, this profile override the Sonatype distribution management   -->
+            <id>ats.nexus</id>
+            <distributionManagement>
+                <repository>
+                    <id>${repo.releases.id}</id>
+                    <name>${repo.releases.name}</name>
+                    <url>${repo.releases.url}</url>
+                    <uniqueVersion>false</uniqueVersion>
+                </repository>
+
+                <snapshotRepository>
+                    <id>${repo.snapshots.id}</id>
+                    <name>${repo.snapshots.name}</name>
+                    <url>${repo.snapshots.url}</url>
+                    <uniqueVersion>false</uniqueVersion>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
+    </profiles>
+</project>

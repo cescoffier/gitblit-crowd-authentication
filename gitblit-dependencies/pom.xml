@@ -1,0 +1,70 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.akquinet.innovation.gitblit</groupId>
+        <artifactId>gitblit-crowd-extension</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>gitblit-dependencies</artifactId>
+    <packaging>pom</packaging>
+    <name>gitblit-dependencies</name>
+
+    <description>
+        Install gitblit artifact in the local maven repository
+    </description>
+
+    <profiles>
+        <profile>
+            <id>install-gitblit-manager</id>
+            <activation>
+                <file>
+                    <missing>${settings.localRepository}/com/gitblit/gitblit-manager/0.9.1</missing>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-install-plugin</artifactId>
+                        <version>2.3.1</version>
+                        <executions>
+                            <execution>
+                                <id>install-gitblit</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>install-file</goal>
+                                </goals>
+                                <configuration>
+                                    <groupId>com.gitblit</groupId>
+                                    <artifactId>gitblit-manager</artifactId>
+                                    <version>${gitblit.version}</version>
+                                    <packaging>jar</packaging>
+                                    <generatePom>true</generatePom>
+                                    <updateReleaseInfo>true</updateReleaseInfo>
+                                    <file>src/main/dependencies/gitblit-manager-0.9.1.jar</file>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.0</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
