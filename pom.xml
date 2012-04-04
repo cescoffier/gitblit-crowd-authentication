@@ -17,7 +17,7 @@
     <description>
         Integration between Gitblit and Crowd Identity Server.
     </description>
-    <!-- TODO Add url and SCM -->
+    <url>https://github.com/cescoffier/gitblit-crowd-authentication</url>
 
     <developers>
         <developer>
@@ -162,6 +162,13 @@
         </repository>
     </repositories>
 
+    <scm>
+        <connection>scm:git:git@github.com:cescoffier/gitblit-crowd-authentication.git</connection>
+        <url>https://github.com/cescoffier/gitblit-crowd-authentication</url>
+        <developerConnection>scm:git:git@github.com:cescoffier/gitblit-crowd-authentication.git</developerConnection>
+    </scm>
+
+
     <profiles>
         <profile>
             <!--  When enabled, this profile override the Sonatype distribution management   -->
@@ -181,6 +188,44 @@
                     <uniqueVersion>false</uniqueVersion>
                 </snapshotRepository>
             </distributionManagement>
+        </profile>
+
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.github</groupId>
+                        <artifactId>site-maven-plugin</artifactId>
+                        <version>0.5</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>site</goal>
+                                </goals>
+                                <phase>site</phase>
+                                <configuration>
+                                    <message>${project.artifactId} - Building site for ${project.version}</message>
+                                    <path>${project.version}</path>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 </project>
